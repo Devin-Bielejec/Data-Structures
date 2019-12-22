@@ -13,7 +13,9 @@ class ListNode:
     have a next node it is point to."""
     def insert_after(self, value):
         current_next = self.next
+        #New Next is current value, so previous is current, and next is current next
         self.next = ListNode(value, self, current_next)
+        #If next exists, current Next's prev needs to links to value we're inserting
         if current_next:
             current_next.prev = self.next
 
@@ -29,16 +31,16 @@ class ListNode:
     """Rearranges this ListNode's previous and next pointers
     accordingly, effectively deleting this ListNode."""
     def delete(self):
+        #If Previous, previous's next now points to this' next, skipping current
         if self.prev:
             self.prev.next = self.next
+        #If Next, next's previous now points to this previous, skipping current
         if self.next:
             self.next.prev = self.prev
 
 
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
-
-
 class DoublyLinkedList:
     def __init__(self, node=None):
         self.head = node
@@ -52,6 +54,19 @@ class DoublyLinkedList:
     as the new head of the list. Don't forget to handle 
     the old head node's previous pointer accordingly."""
     def add_to_head(self, value):
+        print(value)
+        #current Head, used later
+        currentHead = self.head
+        #Make current head listNode, linking to currentHead as next
+        if self.head is not None:
+            self.head = ListNode(value, self.head.prev, currentHead)
+        else:
+            self.head = ListNode(value)
+
+        #Replace current Head's previoius with new current Head
+        currentHead.prev = self.head
+        #Added to length
+        self.length = self.length + 1
         pass
 
     """Removes the List's current head node, making the
@@ -90,3 +105,4 @@ class DoublyLinkedList:
     """Returns the highest value currently in the list"""
     def get_max(self):
         pass
+
