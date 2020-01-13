@@ -24,11 +24,24 @@ class BinarySearchTree:
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        curTree = self
+        while curTree.value:
+            if target == curTree.value:
+                return True
+            elif target > curTree.value:
+                curTree = curTree.right
+            else:
+                curTree = curTree.left
+        return False
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        curTree = self
+        maxVal = curTree.value
+        while curTree.right:
+            curTree = curTree.right
+            maxVal = curTree.value
+        return maxVal
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
