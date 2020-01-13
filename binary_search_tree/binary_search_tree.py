@@ -12,6 +12,13 @@ class BinarySearchTree:
 
     # Insert the given value into the tree
     def insert(self, value):
+        #create a new BinarySearchTree
+        if value > self.value:
+            self.right = BinarySearchTree(value)
+        elif value < self.value:
+            self.left = BinarySearchTree(value)
+        else:
+            print("Cannot add value; it is a duplicate");
         pass
 
     # Return True if the tree contains the value
@@ -45,13 +52,4 @@ class BinarySearchTree:
     def dft_print(self, node):
         pass
 
-    # STRETCH Goals -------------------------
-    # Note: Research may be required
-
-    # Print In-order recursive DFT
-    def pre_order_dft(self, node):
-        pass
-
-    # Print Post-order recursive DFT
-    def post_order_dft(self, node):
-        pass
+   
