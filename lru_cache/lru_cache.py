@@ -38,14 +38,13 @@ class ListNode:
 
 class LRUCache:
     """
-    Our LRUCache class keeps track of the max number of nodes it
-    can hold, the current number of nodes it is holding, a doubly-
-    linked list that holds the key-value entries in the correct
-    order, as well as a storage dict that provides fast access
-    to every node stored in the cache.
+    max number of nodes it can hold
+    the current number of nodes it is holding
+    a doubly-linked list that holds the key-value entries in the correct
+    storage dict that provides fast access
     """
     def __init__(self, limit=10):
-        #dll key entriers in correct order
+        #dll key entries in correct order
         self.dll = DoublyLinkedList()
         #dict fast acces to every node by key to find value
         self.hash = {}
@@ -78,22 +77,24 @@ class LRUCache:
         
 
     """
-    Adds the given key-value pair to the cache. The newly-
-    added pair should be considered the most-recently used
-    entry in the cache. If the cache is already at max capacity
-    before this entry is added, then the oldest entry in the
-    cache needs to be removed to make room. Additionally, in the
-    case that the key already exists in the cache, we simply
-    want to overwrite the old value associated with the key with
-    the newly-specified value.
+    Add key value to front of cache
+
+    Doesn't exist AND not full
+    -add KEY to head
+    Doesn't exists AND full
+    -remove tail
+    -add KEY to head
+
+    exists
+    -bring KEY up to head
     """
     def set(self, key, value):
         #If the key already exists
         if self.hash[key]:
             #Overwrite value in hash
             self.hash[key] = value
-            #move to front
-            self.dll.move_to_front(self.hash[key]) 
+            #move to front - dll holds keys
+            self.dll.move_to_front(key) 
         else:
             #If we add 1, will we be over the limit
             if self.dll.length + 1 > self.limit:
@@ -103,5 +104,5 @@ class LRUCache:
             #Add key to head
             self.dll.add_to_head(key)
             #Add to hash
-            self.hash[key] = self.dll.head
+            self.hash[key] = value
             pass
