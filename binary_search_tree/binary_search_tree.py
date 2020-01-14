@@ -1,7 +1,7 @@
-# from dll_stack import Stack
-# from dll_queue import Queue
-# import sys
-# sys.path.append('../queue_and_stack')
+import sys
+sys.path.append('../queue_and_stack/')
+from dll_stack import Stack
+from dll_queue import Queue
 
 
 class BinarySearchTree:
@@ -9,9 +9,6 @@ class BinarySearchTree:
         self.value = value
         self.left = None
         self.right = None
-
-    def __str__(self):
-        return f"Value is {self.value if self.value is not None else 'None'}, leftVal = {self.left.value if self.left is not None else 'None'}, and rightVal = {self.right.value if self.right is not None else 'None'}"
 
     # Insert the given value into the tree
     def insert(self, value):
@@ -76,18 +73,32 @@ class BinarySearchTree:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        if node:
-            in_order_print(node.left)
-            print(node.value)
-            in_order_print(node.right)
+        def helper(node):
+            if node:
+                helper(node.left)
+                print(node.value)
+                helper(node.right)
+        helper(node)
         pass
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
+        cue = Queue()
+        cue.enqueue(node)
+        while cue.len() > 0:
+            firstNode = cue.dequeue()
+            print(firstNode.value)
+            # if left or right enqueue
+            if firstNode.left is not None:
+                cue.enqueue(firstNode.left)
+            if firstNode.right is not None:
+                cue.enqueue(firstNode.right)
+            
         pass
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
         pass
+
