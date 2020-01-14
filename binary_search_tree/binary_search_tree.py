@@ -1,7 +1,7 @@
-import sys
-sys.path.append('../queue_and_stack')
-from dll_queue import Queue
-from dll_stack import Stack
+# from dll_stack import Stack
+# from dll_queue import Queue
+# import sys
+# sys.path.append('../queue_and_stack')
 
 
 class BinarySearchTree:
@@ -10,22 +10,36 @@ class BinarySearchTree:
         self.left = None
         self.right = None
 
+    def __str__(self):
+        return f"Value is {self.value if self.value is not None else 'None'}, leftVal = {self.left.value if self.left is not None else 'None'}, and rightVal = {self.right.value if self.right is not None else 'None'}"
+
     # Insert the given value into the tree
     def insert(self, value):
-        #create a new BinarySearchTree
-        if value > self.value:
-            self.right = BinarySearchTree(value)
-        elif value < self.value:
-            self.left = BinarySearchTree(value)
-        else:
-            print("Cannot add value; it is a duplicate");
+        curNode = self
+
+        def helper(node, value):
+            # create a new BinarySearchTree
+            if value > node.value:
+                if node.right is None:
+                    node.right = BinarySearchTree(value)
+                else:
+                    helper(node.right, value)
+            elif value < node.value:
+                if node.left is None:
+                    node.left = BinarySearchTree(value)
+                else:
+                    helper(node.left, value)
+            else:
+                print("Cannot add value; it is a duplicate")
+
+        helper(curNode, value)
         pass
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
         curTree = self
-        while curTree.value:
+        while curTree is not None:
             if target == curTree.value:
                 return True
             elif target > curTree.value:
@@ -46,6 +60,15 @@ class BinarySearchTree:
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
     def for_each(self, cb):
+        def helper(node):
+            if node.value is not None:
+                cb(node.value)
+            if node.left is not None:
+                helper(node.left)
+            if node.right is not None:
+                helper(node.right)
+
+        helper(self)
         pass
 
     # DAY 2 Project -----------------------
@@ -64,5 +87,3 @@ class BinarySearchTree:
     # in an iterative depth first traversal
     def dft_print(self, node):
         pass
-
-   
