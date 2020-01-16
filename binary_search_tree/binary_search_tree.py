@@ -100,5 +100,26 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
+        #"1 8 5 3 2 4 7 6"
+        c = Stack()
+        curNode = node
+        c.push(curNode)
+        while c.len() > 0:
+            curNode = c.pop()
+            print(curNode.value)
+            if curNode.left is not None:
+                c.push(curNode.left)
+            if curNode.right is not None:
+                c.push(curNode.right)
         pass
 
+test = BinarySearchTree(1)
+test.insert(8)
+test.insert(5)
+test.insert(7)
+test.insert(6)
+test.insert(3)
+test.insert(4)
+test.insert(2)
+
+test.dft_print(test)
