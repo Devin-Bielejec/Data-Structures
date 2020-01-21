@@ -78,7 +78,6 @@ class LRUCache:
 
             while curNode.value:
                 if curNode.value == key:
-                    print(curNode.value)
                     self.dll.move_to_front(curNode)
                     #if tail, make prev new tail
                     if curNode.next == None:
@@ -86,8 +85,6 @@ class LRUCache:
                     break
                 else:
                     curNode = curNode.next
-            print(self.dll.head.value, self.dll.head.next.value,
-                  self.dll.head.next.next.value, self.dll.tail.value)
             return self.hash[key]
         else:
             # Key doesn't exist

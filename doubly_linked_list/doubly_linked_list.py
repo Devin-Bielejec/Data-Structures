@@ -41,11 +41,6 @@ class ListNode:
 
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
-#4 Cases
-#Case 1: None
-#Case 2: head/tail
-#Case 3: head, tail
-#Case 4: head, item, tail
 class DoublyLinkedList:
     def __init__(self, node=None):
         self.head = node
@@ -95,83 +90,87 @@ class DoublyLinkedList:
     def add_to_tail(self, value):
         #insert after tail
         if self.tail:
-            currentTail = self.tail
-            currentTail.insert_after(value)
-            self.tail = currentTail.next
-            if currentTail == self.head:
-                self.head = currentTail
+            current_tail = self.tail
+            current_tail.insert_after(value)
+            self.tail = current_tail.next
         else:
             self.tail = ListNode(value)
             self.head = self.tail
-        self.length = self.length + 1
-        pass
+        self.length += 1
+        
 
     """Removes the List's current tail node, making the 
     current tail's previous node the new tail of the List.
     Returns the value of the removed Node."""
     def remove_from_tail(self):
-        #Case 1: {tail/head}
-        #Case 2: {head, tail}
-        #Case 3: {head, item, tail}
         if self.tail:
-            currentTail = self.tail
-            currentTail.delete()
-            self.length = self.length - 1
+            current_tail = self.tail
+            current_tail.delete()
+            self.length -= 1
 
-            if currentTail == self.head:
+            if current_tail == self.head:
                 self.head = None
                 self.tail = None
             else:    
-                self.tail = currentTail.prev
+                self.tail = current_tail.prev
            
-            return currentTail.value
+            return current_tail.value
         else:
             return None
+
+    def contains(self, node):
+        #Check if node exists in linked list
+        current_node = self.head
+        while current_node:
+            if current_node == node:
+                return True
+            current_node = current_node.next
+        return False
+
     """Removes the input node from its current spot in the 
     List and inserts it as the new head node of the List."""
     def move_to_front(self, node):
-        #{head/tail}, {head, tail}, {head, item, tail}
-        #Add node to front of list
-        self.add_to_head(node.value)
-        #Delete node
-        node.delete()
-        #Add to head increases length but delete doesn't decrease
-        self.length = self.length - 1
-        pass
+        if self.contains(node):
+            print(self.length)
+            #Add node to front of list
+            self.add_to_head(node.value)
+            print(self.length)
+
+            #Delete node
+            self.delete(node)
+            print(self.length)
+
+
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List."""
     def move_to_end(self, node):
-        #head, item, tail
+        if self.contains(node):
+            #add to tail
+            self.add_to_tail(node.value)
+            #delete
+            self.delete(node)
 
-        #add to tail
-        self.add_to_tail(node.value)
-        if node == self.head:
-            self.head = self.head.next
-        #delete
-        node.delete()
-        #Add to tail increases length but delete doesn't decrease
-        self.length = self.length - 1
-        pass
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
     def delete(self, node):
-        if node == self.head:
-            self.remove_from_head()
-        elif node == self.tail:
-            self.remove_from_tail()
-        else:
-            node.delete()
-        pass
+        if self.contains(node):
+            if node == self.head:
+                self.remove_from_head()
+            elif node == self.tail:
+                self.remove_from_tail()
+            else:
+                #Node.delete does not change the length, but the other two do
+                node.delete()
+                self.length -= 1
         
     """Returns the highest value currently in the list"""
     def get_max(self):
-        max = self.head.value
+        max_val = self.head.value
         current = self.head
         while current is not None:
-            if current.value > max:
-                max = current.value
+            max_val = max(current.value, max_val)
             current = current.next
-        return max
+        return max_val
 
